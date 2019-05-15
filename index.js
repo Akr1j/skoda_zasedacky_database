@@ -24,12 +24,8 @@ var con = mysql.createConnection({
 con.connect(function(err){
   if (err) throw err;
 });
- console.log("in")
 //app.use('/api', apiRoute);
- console.log("in")
 app.use(bodyParser.json())
-
- console.log("in")
 
 //Expres komunikace s klientem
 
@@ -37,34 +33,17 @@ app.use(bodyParser.json())
 //Nastavení poslechu na adresu a výsledek
 app.post('/api/roomData', function(req, res) {
   console.log(req.body)
-  throw err;
+  //throw err;
   //pokus o vytáhnutí id z ***
-  var databaseId = req.id;
+  var databaseId = req.body.id;
   //request na databázi
-  requestInfoRoom(databaseId);
   //Objekt
-  var dataRaw = requestListIdRooms();
-  //Konvert objektu do JSON
-  var myJSON = JSON.stringify(dataRaw);
-  //poslání JSONu
-  res.send(myJSON);
+  requestInfoRoom(databaseId, (rawData) => {
+    var myJSON = JSON.stringify(rawData[0]);
+    //poslání JSONu
+    res.send(myJSON);
+  });
 });
-
-//ROOM ID
-//Nastavení poslechu na adresu a výsledek
-app.post('/api/roomData', function(req, res) {
-
-  //request na databázi
-  requestListIdRooms();
-  //Objekt
-  var dataRaw = requestListIdRooms();
-  //Konvert objektu do JSON
-  var myJSON = JSON.stringify(dataRaw);
-  //poslání JSONu
-  res.send(myJSON);
-});
-
-
 
 //Zde čeká na příchod na PORT a pošle SENT (Nechává zapnutý průchod)
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
@@ -90,10 +69,11 @@ function requestListIdRooms(){
 */
 
 //Vypíše informace o místnosti s konkrétním id
-function requestInfoRoom(data){
+function requestInfoRoom(data, callback){
   con.query("SELECT * FROM rooms WHERE id = '" + con.escape(data) + "'", function (err, result, fields) {
     if (err) throw err;
-    console.log(result);
+    console.log(result[0]);
+    callback(result);
   });
 }
 
