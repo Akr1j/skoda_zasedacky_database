@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pát 17. kvě 2019, 09:51
+-- Vytvořeno: Pát 17. kvě 2019, 14:04
 -- Verze serveru: 10.1.38-MariaDB
 -- Verze PHP: 7.3.2
 
@@ -33,6 +33,7 @@ USE `room_database`;
 CREATE TABLE `defects` (
   `id_room` int(11) NOT NULL,
   `fault` varchar(255) COLLATE utf8_czech_ci NOT NULL,
+  `descriptio` varchar(255) COLLATE utf8_czech_ci NOT NULL,
   `date_fault` date NOT NULL,
   `date_repair` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
@@ -44,6 +45,7 @@ CREATE TABLE `defects` (
 --
 
 CREATE TABLE `occupied` (
+  `special_id` int(11) NOT NULL,
   `id_room` int(11) NOT NULL,
   `name` varchar(60) COLLATE utf8_czech_ci NOT NULL,
   `occupied_date` date NOT NULL,
@@ -57,9 +59,8 @@ CREATE TABLE `occupied` (
 -- Vypisuji data pro tabulku `occupied`
 --
 
-INSERT INTO `occupied` (`id_room`, `name`, `occupied_date`, `occupied_from`, `occupied_to`, `submitter`, `description`) VALUES
-(1, '', '2019-05-14', '14:28:00', '17:00:00', 'Jiří Janďourek', ''),
-(2, '', '2019-05-14', '10:25:00', '14:00:00', 'Jan Nykl', '');
+INSERT INTO `occupied` (`special_id`, `id_room`, `name`, `occupied_date`, `occupied_from`, `occupied_to`, `submitter`, `description`) VALUES
+(3, 1, 'Test reservation', '2019-05-14', '13:00:00', '14:00:00', 'Jiří Janďourek', 'Testovací rezarvace');
 
 -- --------------------------------------------------------
 
@@ -115,6 +116,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
 --
 
 --
+-- Klíče pro tabulku `occupied`
+--
+ALTER TABLE `occupied`
+  ADD PRIMARY KEY (`special_id`);
+
+--
 -- Klíče pro tabulku `rooms`
 --
 ALTER TABLE `rooms`
@@ -129,6 +136,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT pro tabulky
 --
+
+--
+-- AUTO_INCREMENT pro tabulku `occupied`
+--
+ALTER TABLE `occupied`
+  MODIFY `special_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pro tabulku `users`
