@@ -2,6 +2,11 @@
 const express = require('express')
 const bodyParser = require("body-parser")
 const app = express()
+const cookieParser = require('cookie-parser');
+var cors = require('cors')
+var jwt = require('jsonwebtoken');
+var fs = require('fs');
+
 const apiRoute = express.Route()
 
 //Nastavení portu pro express
@@ -30,7 +35,20 @@ con.connect(function(err){
 //Použití knihovny na převodu z JSON do objektu
 app.use(bodyParser.json())
 
+app.use(cors())
+
 //Express komunikace s klientem
+
+app.post('api/login', function(req, res){
+  if(req.body.mane == null || req.body.password){
+    res.status(401).send('Invalid Format')
+  }
+  let payload = {subject: 5}
+  let token = jwt.sign(payload, 'secretKey')
+  res.cookie("SESSIONID", jwtBearerToken, {httpOnly:true, secure:true});
+  //res.status(200).send({token})
+})
+
 
 //ROOM INFO
 //Nastavení poslechu na adresu a výsledek
@@ -50,13 +68,12 @@ app.post('/api/roomData', function(req, res) {
 //Nastavení poslechu na adresu a výsledek
 app.post('/api/roomSchedule', function(req, res) {
   //pokus o vytáhnutí id z ***
-  console.log(id_room);
   var databaseId = req.body.id_room;
   var databaseDate = req.body.date;
   //request na databázi
   //Objekt
   requestOccupiedTime(databaseId, databaseDate, function(rawData){
-    var myJSON = JSON.stringify(rawData[0]);
+    var myJSON = JSON.stringify(rawData);
     //poslání JSONu
     res.send(myJSON);
   });
@@ -101,6 +118,7 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 function requestInfoRoom(dataId, callback){
   con.query("SELECT * FROM rooms WHERE id = '" + con.escape(dataId) + "'", function (err, result, fields) {
     if (err) throw err;
+    
     callback(result);
   });
 }
@@ -110,6 +128,7 @@ function requestOccupiedTime(dataId, dataDate, callback){
   new RegExp('dddd-dd-dd');
   con.query("SELECT occupied_from, occupied_to, name, description FROM occupied WHERE id = " + con.escape(dataId) + " AND occupied_date = " + con.escape(dataDate), function (err, result, fields) {
     if (err) throw err;
+    console.log(fields)
     callback(result);
   });
 }
