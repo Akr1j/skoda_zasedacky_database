@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Pát 17. kvě 2019, 14:04
--- Verze serveru: 10.1.38-MariaDB
--- Verze PHP: 7.3.2
+-- Vytvořeno: Pát 17. kvě 2019, 14:37
+-- Verze serveru: 10.1.40-MariaDB
+-- Verze PHP: 7.3.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -69,6 +69,7 @@ INSERT INTO `occupied` (`special_id`, `id_room`, `name`, `occupied_date`, `occup
 --
 
 CREATE TABLE `rooms` (
+  `special_id` int(11) NOT NULL,
   `id` int(11) NOT NULL,
   `name` varchar(60) COLLATE utf8_czech_ci NOT NULL,
   `contact` varchar(255) COLLATE utf8_czech_ci NOT NULL,
@@ -84,11 +85,15 @@ CREATE TABLE `rooms` (
 -- Vypisuji data pro tabulku `rooms`
 --
 
-INSERT INTO `rooms` (`id`, `name`, `contact`, `chair`, `tv`, `solid_door`, `speaker`, `dataprojector`, `whiteboard`) VALUES
-(0, 'TestRoom', '', 0, 1, 0, 0, 0, 0),
-(1, 'Velka místnost', 'Nykl jan', 10, 1, 1, 1, 1, 1),
-(5, 'Malá místnost', 'Jiří Janďourek', 2, 0, 0, 0, 0, 0),
-(64, 'Malá zasedačka', 'Martin.Novotny@skoda-auto.cz', 5, 1, 0, 0, 0, 1);
+INSERT INTO `rooms` (`special_id`, `id`, `name`, `contact`, `chair`, `tv`, `solid_door`, `speaker`, `dataprojector`, `whiteboard`) VALUES
+(1, 0, 'TestRoom', '', 0, 1, 0, 0, 0, 0),
+(2, 1, 'Velka místnost', 'Nykl jan', 10, 1, 1, 1, 1, 1),
+(3, 5, 'Malá místnost', 'Jiří Janďourek', 2, 0, 0, 0, 0, 0),
+(4, 64, 'Malá zasedačka', 'Martin.Novotny@skoda-auto.cz', 5, 1, 0, 0, 0, 1),
+(5, 1, 'M10 1.P-1', 'dana.subrtova@skoda-auto.cz', 5, 1, 0, 0, 1, 1),
+(6, 2, 'M10 1.P-2', 'dana.subrtova@skoda-auto.cz', 5, 1, 0, 0, 1, 1),
+(7, 3, 'M10 1.P-3', 'dana.subrtova@skoda-auto.cz', 3, 1, 0, 0, 1, 1),
+(8, 4, 'M10 1.P-4', 'dana.subrtova@skoda-auto.cz', 5, 1, 0, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -125,7 +130,7 @@ ALTER TABLE `occupied`
 -- Klíče pro tabulku `rooms`
 --
 ALTER TABLE `rooms`
-  ADD UNIQUE KEY `id` (`id`);
+  ADD PRIMARY KEY (`special_id`);
 
 --
 -- Klíče pro tabulku `users`
@@ -142,6 +147,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `occupied`
   MODIFY `special_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pro tabulku `rooms`
+--
+ALTER TABLE `rooms`
+  MODIFY `special_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pro tabulku `users`
