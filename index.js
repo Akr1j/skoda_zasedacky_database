@@ -39,6 +39,8 @@ app.use(cors())
 
 //Express komunikace s klientem
 
+
+//login
 app.post('api/login', function(req, res){
   if(req.body.mane == null || req.body.password){
     res.status(401).send('Invalid Format')
@@ -79,6 +81,7 @@ app.post('/api/roomSchedule', function(req, res) {
   });
 });
 
+
 //NEW ROOM SCHEDULE
 //Nastavení poslechu na adresu a výsledek
 app.post('/api/addRoomReservation', function(req, res) {
@@ -116,7 +119,7 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 //Vypíše informace o místnosti s konkrétním id
 function requestInfoRoom(dataId, callback){
-  con.query("SELECT * FROM rooms WHERE id = '" + con.escape(dataId) + "'", function (err, result, fields) {
+  con.query("SELECT * FROM rooms WHERE id = '" + dataId + "'", function (err, result, fields) {
     if (err) throw err;
     
     callback(result);
@@ -126,9 +129,10 @@ function requestInfoRoom(dataId, callback){
 //Vypíše všechny události(název, od kdy, do kdy, kdo pořádá) na místnost s konkrétním id a konkrétním dnem
 function requestOccupiedTime(dataId, dataDate, callback){
   new RegExp('dddd-dd-dd');
-  con.query("SELECT occupied_from, occupied_to, name, description FROM occupied WHERE id = " + con.escape(dataId) + " AND occupied_date = " + con.escape(dataDate), function (err, result, fields) {
+  con.query("SELECT name, occupied_from, occupied_to, submitter, description FROM occupied WHERE id_room = " + dataId + " AND occupied_date = '" + dataDate + "'", function (err, result, fields) {
+  console.log("SELECT name, occupied_from, occupied_to, submitter, description FROM occupied WHERE id_room = " + dataId + " AND occupied_date = " + dataDate);
+  console.log("Odpověď: " + result);
     if (err) throw err;
-    console.log(fields)
     callback(result);
   });
 }
