@@ -97,8 +97,8 @@ app.post('/api/addRoomReservation', function(req, res) {
   var databaseRoomId = "1";
   var databaseUserName = "Jiří Testík";
   var databaseDate = "2019-05-14";
-  var databaseFrom = "10:00:00";
-  var databaseTo = "13:00:00";
+  var databaseFrom = "14:00:01";
+  var databaseTo = "15:00:00";
   var databaseName = "Testování místností";
   var databaseDescription = "Tato rezervace je zde pro účely testu";
 
@@ -136,25 +136,43 @@ function requestOccupiedTime(dataId, dataDate, callback){
   });
 }
 
+
+///////////////////////////////////////////////////////////////////////MIMO PROVOZ ////////////////////////////////////////////////////////////
 //Tvorba nové rezervace
 function newRequestOccupiedTime(dataRoomId, dataUserName, dataDate, dataFrom, dataTo, dataName, dataDescription, callback){
-  con.query("SELECT name FROM occupied WHERE id_room = "  + dataRoomId + " AND (occupied_date = '"+ dataDate + "') AND ( '" +  dataFrom + "' BETWEEN occupied_from AND occupied_to)", function(err, result, fields) {
-    // AND ( '" + dataTo + "' BETWEEN occupied_from AND occupied_to)
-    console.log(result);
-    if (result.lenght = 2) { console.log("Dík honzíku")}
-  });
-  console.log("SELECT name FROM occupied WHERE id_room = "  + dataRoomId + " AND (occupied_date = '"+ dataDate + "' ) AND ( '" +  dataFrom + "' BETWEEN occupied_from AND occupied_to) AND ( '" + dataTo + "' BETWEEN occupied_from AND occupied_to)")
-  
+con.query("select count(id_room) from occupied where occupied_date = '" + dataDate + "' and id_room= '" + dataRoomId + "' and (occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')", function(err, result, fields){
+  if (err) throw err;
+  console.log(result);
 
-  /*if (con.query("SELECT name FROM occupied WHERE id_room = " + dataRoomId + " (occupied_date = "+ dataDate + " ) AND ( " +  dataFrom + " BETWEEN occupied_from AND occupied_to) AND ( " + dataTo + " BETWEEN occupied_from AND occupied_to)",
-   function(err,result,fields) {*/
+
+      });
+}
+
+
+/*function newRequestOccupiedTime(dataRoomId, dataUserName, dataDate, dataFrom, dataTo, dataName, dataDescription, callback){
+  con.query("SELECT name FROM occupied WHERE id_room = "  + dataRoomId + " AND (occupied_date = '"+ dataDate + "') AND ( '" +  dataFrom + "' BETWEEN occupied_from AND occupied_to)",
+  function(err, result, fields) {
+    console.log(result);
+    if (result.lenght = 2) { 
+      console.log("Dík honzíku")
+    }else{
+      con.query("SELECT name FROM occupied WHERE ('" + dataTo + "' BETWEEN occupied_from AND occupied_to)")
+      console.log("SELECT name FROM occupied WHERE ('" + dataTo + "' BETWEEN occupied_from AND occupied_to)")
+    }
+  });
+  console.log("SELECT name FROM occupied WHERE id_room = "  + dataRoomId + " AND (occupied_date = '"+ dataDate + "' ) AND ( '" +  dataFrom + "' BETWEEN occupied_from AND occupied_to)")
+  */
+
+/*
+  if (con.query("SELECT name FROM occupied WHERE id_room = " + dataRoomId + " (occupied_date = "+ dataDate + " ) AND ( " +  dataFrom + " BETWEEN occupied_from AND occupied_to) AND ( " + dataTo + " BETWEEN occupied_from AND occupied_to)",
+   function(err,result,fields) {
     //console.log("SELECT name FROM occupied WHERE id_room = " + dataRoomId + " (occupied_date ="+ dataDate +") AND (" +  dataFrom +" BETWEEN occupied_from AND occupied_to) AND (" + dataTo + "BETWEEN occupied_from AND occupied_to)");
     //con.query("INSERT INTO occupied VALUES ("+ dataRoomId + ", " + dataName + ", " + dataDate +", " + dataFrom +", " + dataTo +", " + dataUserName +", " + dataDescription +")",
      //function(err,result,fields){
       //if (err) throw err;
       //callback(result);
     };
-
+*/
 //
 
 
