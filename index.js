@@ -142,17 +142,22 @@ function requestOccupiedTime(dataId, dataDate, callback){
 
 //Tvorba nové rezervace
 function newRequestOccupiedTime(dataRoomId, dataUserName, dataDate, dataFrom, dataTo, dataName, dataDescription, callback){
-  con.query("select count(id_room) from occupied where occupied_date = '" + dataDate + "' and id_room= '" + dataRoomId + "' and (occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')", function(err, result, fields){
+  con.query("select count(id_room) from occupied where occupied_date = '" + dataDate + "' and (id_room= '" + dataRoomId + "' and ((occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')))", function(err, result, fields){
     if (err) throw err;
-    console.log("select count(id_room) from occupied where occupied_date = '" + dataDate + "' and id_room= '" + dataRoomId + "' and (occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')")
+
+    console.log("select count(id_room) from occupied where occupied_date = '" + dataDate + "' and (id_room= '" + dataRoomId + "' and ((occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')))")
     console.log(result);
+
     if (result[0]['count(id_room)']  == 0) {
       con.query("INSERT INTO occupied (id_room, name, occupied_date, occupied_from, occupied_to, submitter, description) VALUES ( '"+ dataRoomId + "', '" + dataName + "', '" + dataDate +"', '" + dataFrom +"', '" + dataTo +"', '" + dataUserName +"', '" + dataDescription +"')")
       callback("Succes");
+
       console.log("select count(id_room) from occupied where occupied_date = '" + dataDate + "' and id_room= '" + dataRoomId + "' and (occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')")
       console.log(result + "zapsáno");
+
     }else{
       callback("Room is occupied");
+
       console.log(result + "nezapsáno");
     }
   });
