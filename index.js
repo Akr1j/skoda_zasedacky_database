@@ -22,7 +22,7 @@ var mysql = require('mysql');
 //Definování propojení s databází + login
 var con = mysql.createConnection({
   host: "localhost",
-  user: "GuestUser",
+  user: "Guest",
   password: "Aa123456",
   database: "room_database",
 });
@@ -124,7 +124,7 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 //Vypíše informace o místnosti s konkrétním jménem
 function requestInfoRoom(dataId, callback){
-  con.query("SELECT * FROM rooms WHERE room_name = '" + dataId + "'", function (err, result, fields) {
+  con.query("SELECT room_name, contact, chair, tv, solid_door, speaker, dataprojector, whiteboard FROM rooms WHERE room_name = '" + dataId + "'", function (err, result, fields) {
     if (err) throw err;
     
     callback(result);
@@ -134,7 +134,7 @@ function requestInfoRoom(dataId, callback){
 //Vypíše všechny události(název, od kdy, do kdy, kdo pořádá) na místnost s konkrétním jménem a konkrétním dnem
 function requestOccupiedTime(dataId, dataDate, callback){
   new RegExp('dddd-dd-dd');
-  con.query("SELECT name, occupied_from, occupied_to, submitter, description FROM occupied WHERE room_name = " + dataId + " AND occupied_date = '" + dataDate + "'", function (err, result, fields) {
+  con.query("SELECT reservation_name, occupied_from, occupied_to, submitter, description FROM occupied WHERE room_name = " + dataId + " AND occupied_date = '" + dataDate + "'", function (err, result, fields) {
     if (err) throw err;
     callback(result);
   });
@@ -146,7 +146,7 @@ function newRequestOccupiedTime(dataRoomId, dataUserName, dataDate, dataFrom, da
   con.query("select count(room_name) from occupied where occupied_date = '" + dataDate + "' and (room_name = '" + dataRoomId + "' and ((occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')))", function(err, result, fields){
     if (err) throw err;
 
-    if (result[0]['count(id_room)']  == 0) {
+    if (result[0]['count(room_name)']  == 0) {
       con.query("INSERT INTO occupied (room_name, reservation_name, occupied_date, occupied_from, occupied_to, submitter, description) VALUES ( '"+ dataRoomId + "', '" + dataReservationName + "', '" + dataDate +"', '" + dataFrom +"', '" + dataTo +"', '" + dataUserName +"', '" + dataDescription +"')")
       callback("Succes");
 

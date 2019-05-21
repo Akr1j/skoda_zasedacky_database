@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Úte 21. kvě 2019, 10:37
+-- Vytvořeno: Úte 21. kvě 2019, 10:54
 -- Verze serveru: 10.1.40-MariaDB
 -- Verze PHP: 7.3.5
 
@@ -55,6 +55,13 @@ CREATE TABLE `occupied` (
   `submitter` varchar(255) COLLATE utf8_czech_ci NOT NULL,
   `description` varchar(255) COLLATE utf8_czech_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+
+--
+-- Vypisuji data pro tabulku `occupied`
+--
+
+INSERT INTO `occupied` (`id`, `room_name`, `reservation_name`, `occupied_date`, `occupied_from`, `occupied_to`, `submitter`, `description`) VALUES
+(4, 'M10-01', 'Test Reservation', '2019-05-21', '15:00:00', '17:00:00', 'Jan Nykl', 'Testovací rezervace');
 
 -- --------------------------------------------------------
 
@@ -120,7 +127,7 @@ ALTER TABLE `defects`
 -- AUTO_INCREMENT pro tabulku `occupied`
 --
 ALTER TABLE `occupied`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pro tabulku `rooms`
