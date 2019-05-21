@@ -1,3 +1,5 @@
+"use strict"
+
 //Implementace knihovny express
 const express = require('express')
 const bodyParser = require("body-parser")
@@ -20,8 +22,8 @@ var mysql = require('mysql');
 //Definování propojení s databází + login
 var con = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "",
+  user: "GuestUser",
+  password: "Aa123456",
   database: "room_database",
 });
 
@@ -56,25 +58,25 @@ app.post('api/login', function(req, res){
 //Nastavení poslechu na adresu a výsledek
 app.post('/api/roomData', function(req, res) {
   //pokus o vytáhnutí id z ***
-  var databaseId = req.body.id;
+  var databaseRoomName = req.body.id;
   //request na databázi
   //Objekt
-  requestInfoRoom(databaseId, function(rawData){
+  requestInfoRoom(databaseRoomName, function(rawData){
     var myJSON = JSON.stringify(rawData[0]);
     //poslání JSONu
     res.send(myJSON);
   });
 });
 
-//ROOM SCHEDULE
+//WRITE ROOM SCHEDULE
 //Nastavení poslechu na adresu a výsledek
 app.post('/api/roomSchedule', function(req, res) {
   //pokus o vytáhnutí id z ***
-  var databaseId = req.body.id_room;
+  var databaseRoomName = req.body.id_room;
   var databaseDate = req.body.date;
   //request na databázi
   //Objekt
-  requestOccupiedTime(databaseId, databaseDate, function(rawData){
+  requestOccupiedTime(databaseRoomName, databaseDate, function(rawData){
     const outObj = Object.keys(rawData[0]).reduce( (acm, val) => {
       if(!NonUtilityEntry.includes(val)){
         if(rawData[0][val])
@@ -91,12 +93,12 @@ app.post('/api/roomSchedule', function(req, res) {
 });
 
 
-//NEW ROOM SCHEDULE
+//CREAT NEW ROOM SCHEDULE
 //Nastavení poslechu na adresu a výsledek
 app.post('/api/addRoomReservation', function(req, res) {
   //pokus o vytáhnutí id z ***
   
-  var databaseRoomId = req.body.id_room;
+  var databaseRoomName = req.body.id_room;
   var databaseUserName = req.body.name_user;
   var databaseDate = req.body.date;
   var databaseFrom = req.body.occupied_from;
@@ -104,10 +106,9 @@ app.post('/api/addRoomReservation', function(req, res) {
   var databaseName = req.body.name_reservation;
   var databaseDescription = req.body.description;
 
-
   //request na databázi
   //Objekt
-  newRequestOccupiedTime(databaseRoomId, databaseUserName, databaseDate, databaseFrom, databaseTo, databaseName, databaseDescription, function(rawData){
+  newRequestOccupiedTime(databaseRoomName, databaseUserName, databaseDate, databaseFrom, databaseTo, databaseName, databaseDescription, function(rawData){
     var myJSON = JSON.stringify(rawData);
     //poslání JSONu
     res.send(myJSON);
@@ -121,19 +122,19 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 //Komunikace s databází funkce
 
-//Vypíše informace o místnosti s konkrétním id
+//Vypíše informace o místnosti s konkrétním jménem
 function requestInfoRoom(dataId, callback){
-  con.query("SELECT * FROM rooms WHERE id = '" + dataId + "'", function (err, result, fields) {
+  con.query("SELECT * FROM rooms WHERE room_name = '" + dataId + "'", function (err, result, fields) {
     if (err) throw err;
     
     callback(result);
   });
 }
 
-//Vypíše všechny události(název, od kdy, do kdy, kdo pořádá) na místnost s konkrétním id a konkrétním dnem
+//Vypíše všechny události(název, od kdy, do kdy, kdo pořádá) na místnost s konkrétním jménem a konkrétním dnem
 function requestOccupiedTime(dataId, dataDate, callback){
   new RegExp('dddd-dd-dd');
-  con.query("SELECT name, occupied_from, occupied_to, submitter, description FROM occupied WHERE id_room = " + dataId + " AND occupied_date = '" + dataDate + "'", function (err, result, fields) {
+  con.query("SELECT name, occupied_from, occupied_to, submitter, description FROM occupied WHERE room_name = " + dataId + " AND occupied_date = '" + dataDate + "'", function (err, result, fields) {
     if (err) throw err;
     callback(result);
   });
@@ -141,56 +142,16 @@ function requestOccupiedTime(dataId, dataDate, callback){
 
 
 //Tvorba nové rezervace
-function newRequestOccupiedTime(dataRoomId, dataUserName, dataDate, dataFrom, dataTo, dataName, dataDescription, callback){
-  con.query("select count(id_room) from occupied where occupied_date = '" + dataDate + "' and (id_room= '" + dataRoomId + "' and ((occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')))", function(err, result, fields){
+function newRequestOccupiedTime(dataRoomId, dataUserName, dataDate, dataFrom, dataTo, dataReservationName, dataDescription, callback){
+  con.query("select count(room_name) from occupied where occupied_date = '" + dataDate + "' and (room_name = '" + dataRoomId + "' and ((occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')))", function(err, result, fields){
     if (err) throw err;
 
-    console.log("select count(id_room) from occupied where occupied_date = '" + dataDate + "' and (id_room= '" + dataRoomId + "' and ((occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')))")
-    console.log(result);
-
     if (result[0]['count(id_room)']  == 0) {
-      con.query("INSERT INTO occupied (id_room, name, occupied_date, occupied_from, occupied_to, submitter, description) VALUES ( '"+ dataRoomId + "', '" + dataName + "', '" + dataDate +"', '" + dataFrom +"', '" + dataTo +"', '" + dataUserName +"', '" + dataDescription +"')")
+      con.query("INSERT INTO occupied (room_name, reservation_name, occupied_date, occupied_from, occupied_to, submitter, description) VALUES ( '"+ dataRoomId + "', '" + dataReservationName + "', '" + dataDate +"', '" + dataFrom +"', '" + dataTo +"', '" + dataUserName +"', '" + dataDescription +"')")
       callback("Succes");
 
-      console.log("select count(id_room) from occupied where occupied_date = '" + dataDate + "' and id_room= '" + dataRoomId + "' and (occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')")
-      console.log(result + "zapsáno");
-
     }else{
-      callback("Room is occupied");
-
-      console.log(result + "nezapsáno");
+      callback("Occupied");
     }
   });
 }
-
-
-
-
-
-
-
-
-
-//DUMP
-
-
-/*
-//Vypíše informace o uživately s konkrétním id
-function requestInfoUser(data){
-  con.query("SELECT * FROM users WHERE id = '" + con.escape(data) + "'", function (err, result, fields) {
-    if (err) throw err;
-    console.log(result);
-  });
-}
-*/
-
-/*
-//Vypíše list id místnosní
-function requestListIdRooms(){
-  con.query("SELECT id FROM rooms", function (err, result, fields) {
-    if (err) throw err;
-    console.log(result);
-    return result
-  });
-}
-*/
