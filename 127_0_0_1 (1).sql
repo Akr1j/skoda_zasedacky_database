@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Úte 21. kvě 2019, 09:47
--- Verze serveru: 10.1.38-MariaDB
--- Verze PHP: 7.3.2
+-- Vytvořeno: Úte 21. kvě 2019, 10:37
+-- Verze serveru: 10.1.40-MariaDB
+-- Verze PHP: 7.3.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -75,6 +75,16 @@ CREATE TABLE `rooms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
+-- Vypisuji data pro tabulku `rooms`
+--
+
+INSERT INTO `rooms` (`id`, `room_name`, `contact`, `chair`, `tv`, `solid_door`, `speaker`, `dataprojector`, `whiteboard`) VALUES
+(1, 'M10-01', 'dana.subrtova@skoda-auto.cz', 5, 1, 0, 0, 0, 1),
+(2, 'M10-02', 'dana.subrtova@skoda-auto.cz', 5, 1, 0, 0, 0, 1),
+(3, 'M10-03', 'dana.subrtova@skoda-auto.cz', 3, 1, 0, 0, 0, 1),
+(4, 'M10-04', 'dana.subrtova@skoda-auto.cz', 5, 1, 0, 0, 0, 1);
+
+--
 -- Klíče pro exportované tabulky
 --
 
@@ -116,7 +126,7 @@ ALTER TABLE `occupied`
 -- AUTO_INCREMENT pro tabulku `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
