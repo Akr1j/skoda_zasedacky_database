@@ -13,7 +13,7 @@ Example request
 
 ```
 {
-  "id_room":1,
+  "id":"M10-01",
   "date":"2019-05-14"
 }
 ```
@@ -22,7 +22,7 @@ Example request
 Example request
 ```
 {
-  "id_room": "1",
+  "id_room": "M10-01",
   "name_user": "Jiří Janďourek",
   "date":"2019-05-14",
   "occupied_from": "11:00:00",
