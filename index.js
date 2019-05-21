@@ -58,7 +58,7 @@ app.post('api/login', function(req, res){
 //Nastavení poslechu na adresu a výsledek
 app.post('/api/roomData', function(req, res) {
   //pokus o vytáhnutí id z ***
-  var databaseRoomName = req.body.id;
+  var databaseRoomName = req.body.id
   //request na databázi
   //Objekt
   requestInfoRoom(databaseRoomName, function(rawData){
@@ -77,7 +77,7 @@ app.post('/api/roomSchedule', function(req, res) {
   //request na databázi
   //Objekt
   requestOccupiedTime(databaseRoomName, databaseDate, function(rawData){
-    const outObj = Object.keys(rawData[0]).reduce( (acm, val) => {
+  const outObj = Object.keys(rawData[0]).reduce( (acm, val) => {
       if(!NonUtilityEntry.includes(val)){
         if(rawData[0][val])
           acm.utility.push(val);
@@ -123,24 +123,26 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 //Komunikace s databází funkce
 
 //Vypíše informace o místnosti s konkrétním jménem
-function requestInfoRoom(dataId, callback){
-  con.query("SELECT room_name, contact, chair, tv, solid_door, speaker, dataprojector, whiteboard FROM rooms WHERE room_name = '" + dataId + "'", function (err, result, fields) {
+function requestInfoRoom(dataRoomName, callback){
+  con.query("SELECT room_name, contact, chair, tv, solid_door, speaker, dataprojector, whiteboard FROM rooms WHERE room_name = '" + dataRoomName + "'", function (err, result, fields) {
     if (err) throw err;
-    
-    callback(result);
+      con.query("SELECT fault, descriptio, date_fault FROM `defects` WHERE room_name = '" + dataRoomName +"'", function(error, result2, fields2){
+        if(error) throw error;
+        console.log(result, result2)
+        result[0].reportedDefects = result2;
+        callback(result);
+      })
   });
 }
 
 //Vypíše všechny události(název, od kdy, do kdy, kdo pořádá) na místnost s konkrétním jménem a konkrétním dnem
 function requestOccupiedTime(dataId, dataDate, callback){
   new RegExp('dddd-dd-dd');
-  con.query("SELECT reservation_name, occupied_from, occupied_to, submitter, description FROM occupied WHERE room_name = " + dataId + " AND occupied_date = '" + dataDate + "'", function (err, result, fields) {
+  con.query("SELECT reservation_name, occupied_from, occupied_to, submitter, description FROM occupied WHERE room_name = '" + dataId + "' AND occupied_date = '" + dataDate + "'", function (err, result, fields) {
     if (err) throw err;
     callback(result);
   });
 }
-
-
 //Tvorba nové rezervace
 function newRequestOccupiedTime(dataRoomId, dataUserName, dataDate, dataFrom, dataTo, dataReservationName, dataDescription, callback){
   con.query("select count(room_name) from occupied where occupied_date = '" + dataDate + "' and (room_name = '" + dataRoomId + "' and ((occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')))", function(err, result, fields){
