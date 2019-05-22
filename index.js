@@ -63,9 +63,11 @@ app.post('/api/roomData', function(req, res) {
   //Objekt
   requestInfoRoom(databaseRoomName, function(rawData){
 
-    const NonUtilityEntry = ["room_name", "chair", "contact", "description"]
+    const NonUtilityEntry = ["room_name", "chair", "contact", "description", "reportedDefects"]
     const outObj = Object.keys(rawData[0]).reduce( (acm, val) => {
+      //acm.utility.push(val);
       if(!NonUtilityEntry.includes(val)){
+        console.log(val)
         if(rawData[0][val])
           acm.utility.push(val);
       }
@@ -83,8 +85,8 @@ app.post('/api/roomData', function(req, res) {
     var myJSON = JSON.stringify(outObj);
 
 
-    
-    var myJSON = JSON.stringify(rawData[0]);
+
+    //var myJSON = JSON.stringify(rawData[0]);
     //poslání JSONu
     res.send(myJSON);
   });
@@ -101,7 +103,10 @@ app.post('/api/roomSchedule', function(req, res) {
   requestOccupiedTime(databaseRoomName, databaseDate, function(rawData){
     
 
-    var myJSON = JSON.stringify(rawData);
+    var myJSON = JSON.stringify({
+      id.req.body.id_room,
+      schedule_list:rawData
+    });
     //poslání JSONu
     res.send(myJSON);
   });
