@@ -104,7 +104,7 @@ app.post('/api/roomSchedule', function(req, res) {
     
 
     var myJSON = JSON.stringify({
-      id.req.body.id_room,
+      id:req.body.id_room,
       schedule_list:rawData
     });
     //poslání JSONu
