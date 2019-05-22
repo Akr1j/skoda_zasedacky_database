@@ -96,7 +96,7 @@ app.post('/api/roomData', function(req, res) {
 //Nastavení poslechu na adresu a výsledek
 app.post('/api/roomSchedule', function(req, res) {
   //pokus o vytáhnutí id z ***
-  var databaseRoomName = req.body.id_room;
+  var databaseRoomName = req.body.id;
   var databaseDate = req.body.date;
   //request na databázi
   //Objekt
@@ -161,7 +161,8 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 function requestInfoRoom(dataRoomName, callback){
   con.query("SELECT room_name, contact, description, chair, tv, solid_door, speaker, dataprojector, whiteboard FROM rooms WHERE room_name = '" + dataRoomName + "'", function (err, result, fields) {
     if (err) throw err;
-      con.query("SELECT fault_name, description, date_fault FROM `defects` WHERE room_name = '" + dataRoomName +"'", function(error, result2, fields2){
+      con.query("SELECT fault_name, description, date_fault, email FROM `defects` WHERE room_name = '" + dataRoomName +"'", function(error, result2, fields2){
+        console.log("SELECT fault_name, description, date_fault, email FROM `defects` WHERE room_name = '" + dataRoomName +"'");
         if(error) throw error;
         result[0].reportedDefects = result2;
         callback(result);
