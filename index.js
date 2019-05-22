@@ -67,7 +67,6 @@ app.post('/api/roomData', function(req, res) {
     const outObj = Object.keys(rawData[0]).reduce( (acm, val) => {
       //acm.utility.push(val);
       if(!NonUtilityEntry.includes(val)){
-        console.log(val)
         if(rawData[0][val])
           acm.utility.push(val);
       }
@@ -98,14 +97,24 @@ app.post('/api/roomSchedule', function(req, res) {
   //pokus o vytáhnutí id z ***
   var databaseRoomName = req.body.id;
   var databaseDate = req.body.date;
+
   //request na databázi
   //Objekt
   requestOccupiedTime(databaseRoomName, databaseDate, function(rawData){
-    
+    var sl = [];
+    rawData.forEach( (val) => {
+      sl.push({
+        name: val.reservation_name,
+        owner: val.submitter,
+        start: val.occupied_from,
+        end: val.occupied_to,
+        description: val.description
+      })
+    })
 
     var myJSON = JSON.stringify({
       id:req.body.id_room,
-      schedule_list:rawData
+      schedule_list:sl
     });
     //poslání JSONu
     res.send(myJSON);
@@ -162,7 +171,6 @@ function requestInfoRoom(dataRoomName, callback){
   con.query("SELECT room_name, contact, description, chair, tv, solid_door, speaker, dataprojector, whiteboard FROM rooms WHERE room_name = '" + dataRoomName + "'", function (err, result, fields) {
     if (err) throw err;
       con.query("SELECT fault_name, description, date_fault, email FROM `defects` WHERE room_name = '" + dataRoomName +"'", function(error, result2, fields2){
-        console.log("SELECT fault_name, description, date_fault, email FROM `defects` WHERE room_name = '" + dataRoomName +"'");
         if(error) throw error;
         result[0].reportedDefects = result2;
         callback(result);
