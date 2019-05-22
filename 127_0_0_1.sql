@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Úte 21. kvě 2019, 15:17
+-- Vytvořeno: Stř 22. kvě 2019, 13:37
 -- Verze serveru: 10.1.40-MariaDB
 -- Verze PHP: 7.3.5
 
@@ -33,17 +33,20 @@ USE `room_database`;
 CREATE TABLE `defects` (
   `id` int(11) NOT NULL,
   `room_name` varchar(11) COLLATE utf8_czech_ci NOT NULL,
-  `fault` varchar(255) COLLATE utf8_czech_ci NOT NULL,
-  `descriptio` varchar(255) COLLATE utf8_czech_ci NOT NULL,
-  `date_fault` date NOT NULL
+  `fault_name` varchar(255) COLLATE utf8_czech_ci NOT NULL,
+  `defect_utility` varchar(60) COLLATE utf8_czech_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8_czech_ci NOT NULL,
+  `date_fault` date NOT NULL,
+  `email` varchar(60) COLLATE utf8_czech_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 --
 -- Vypisuji data pro tabulku `defects`
 --
 
-INSERT INTO `defects` (`id`, `room_name`, `fault`, `descriptio`, `date_fault`) VALUES
-(2, 'M10-01', 'Velká chyba', 'fvbnm', '2019-05-21');
+INSERT INTO `defects` (`id`, `room_name`, `fault_name`, `defect_utility`, `description`, `date_fault`, `email`) VALUES
+(2, 'M10-01', 'Velká chyba', '', 'fvbnm', '2019-05-21', ''),
+(6, 'M10-01', 'Testovací Chyba', 'chair', 'Popis testovací chyby', '2019-05-22', 'jirkajandourek@seznam.cz');
 
 -- --------------------------------------------------------
 
@@ -79,6 +82,7 @@ CREATE TABLE `rooms` (
   `id` int(11) NOT NULL,
   `room_name` varchar(60) COLLATE utf8_czech_ci NOT NULL,
   `contact` varchar(255) COLLATE utf8_czech_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8_czech_ci NOT NULL,
   `chair` int(60) NOT NULL,
   `tv` tinyint(1) NOT NULL,
   `solid_door` tinyint(1) NOT NULL,
@@ -91,11 +95,11 @@ CREATE TABLE `rooms` (
 -- Vypisuji data pro tabulku `rooms`
 --
 
-INSERT INTO `rooms` (`id`, `room_name`, `contact`, `chair`, `tv`, `solid_door`, `speaker`, `dataprojector`, `whiteboard`) VALUES
-(1, 'M10-01', 'dana.subrtova@skoda-auto.cz', 5, 1, 0, 0, 0, 1),
-(2, 'M10-02', 'dana.subrtova@skoda-auto.cz', 5, 1, 0, 0, 0, 1),
-(3, 'M10-03', 'dana.subrtova@skoda-auto.cz', 3, 1, 0, 0, 0, 1),
-(4, 'M10-04', 'dana.subrtova@skoda-auto.cz', 5, 1, 0, 0, 0, 1);
+INSERT INTO `rooms` (`id`, `room_name`, `contact`, `description`, `chair`, `tv`, `solid_door`, `speaker`, `dataprojector`, `whiteboard`) VALUES
+(1, 'M10-01', 'dana.subrtova@skoda-auto.cz', '', 5, 1, 0, 0, 0, 1),
+(2, 'M10-02', 'dana.subrtova@skoda-auto.cz', '', 5, 1, 0, 0, 0, 1),
+(3, 'M10-03', 'dana.subrtova@skoda-auto.cz', '', 3, 1, 0, 0, 0, 1),
+(4, 'M10-04', 'dana.subrtova@skoda-auto.cz', '', 5, 1, 0, 0, 0, 1);
 
 --
 -- Klíče pro exportované tabulky
@@ -127,13 +131,13 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT pro tabulku `defects`
 --
 ALTER TABLE `defects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pro tabulku `occupied`
 --
 ALTER TABLE `occupied`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pro tabulku `rooms`

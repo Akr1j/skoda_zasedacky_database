@@ -77,16 +77,24 @@ app.post('/api/roomSchedule', function(req, res) {
   //request na databázi
   //Objekt
   requestOccupiedTime(databaseRoomName, databaseDate, function(rawData){
-    /*  const outObj = Object.keys(rawData[0]).reduce( (acm, val) => {
+    const NonUtilityEntry = ["room_name", "chair", "contact", "description"]
+    const outObj = Object.keys(rawData[0]).reduce( (acm, val) => {
       if(!NonUtilityEntry.includes(val)){
         if(rawData[0][val])
           acm.utility.push(val);
       }
-      else
-        acm[val] = rawData[0][val]
+      else{
+        if(val == "room_name")
+          acm.id = rawData[0][val]
+        else if(val == "description")
+          acm.description = rawData[0][val]
+        else
+          acm[val] = rawData[0][val]
+
+      }
       return acm
     }, { utility:[] })
-    var myJSON = JSON.stringify(outObj);*/
+    var myJSON = JSON.stringify(outObj);
 
     var myJSON = JSON.stringify(rawData);
     //poslání JSONu
@@ -141,9 +149,9 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 //Vypíše informace o místnosti s konkrétním jménem
 function requestInfoRoom(dataRoomName, callback){
-  con.query("SELECT room_name, contact, chair, tv, solid_door, speaker, dataprojector, whiteboard FROM rooms WHERE room_name = '" + dataRoomName + "'", function (err, result, fields) {
+  con.query("SELECT room_name, contact, description, chair, tv, solid_door, speaker, dataprojector, whiteboard FROM rooms WHERE room_name = '" + dataRoomName + "'", function (err, result, fields) {
     if (err) throw err;
-      con.query("SELECT fault_name, descriptio, date_fault FROM `defects` WHERE room_name = '" + dataRoomName +"'", function(error, result2, fields2){
+      con.query("SELECT fault_name, description, date_fault FROM `defects` WHERE room_name = '" + dataRoomName +"'", function(error, result2, fields2){
         if(error) throw error;
         result[0].reportedDefects = result2;
         callback(result);
