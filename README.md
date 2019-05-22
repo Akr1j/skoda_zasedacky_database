@@ -1,4 +1,5 @@
 # Škoda zasedacky - database
+Aplikaci naleznete [Zde](https://body0.ml/).
 
 ## Need instal:  
 1.XAMPP -- https://www.apachefriends.org/index.html  
