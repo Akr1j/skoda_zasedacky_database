@@ -63,6 +63,10 @@ app.post('/api/roomData', function(req, res) {
   //Objekt
   requestInfoRoom(databaseRoomName, function(rawData){
 
+    if(!rawData.id_found){
+      res.send(rawData)
+    }
+
     const NonUtilityEntry = ["room_name", "chair", "contact", "description", "reportedDefects"]
     const outObj = Object.keys(rawData[0]).reduce( (acm, val) => {
       //acm.utility.push(val);
@@ -101,6 +105,9 @@ app.post('/api/roomSchedule', function(req, res) {
   //request na databázi
   //Objekt
   requestOccupiedTime(databaseRoomName, databaseDate, function(rawData){
+    if(!rawData.id_found){
+      res.send(rawData)
+    }
     var sl = [];
     rawData.forEach( (val) => {
       sl.push({
@@ -138,7 +145,12 @@ app.post('/api/addRoomReservation', function(req, res) {
   //request na databázi
   //Objekt
   newRequestOccupiedTime(databaseRoomName, databaseUserName, databaseDate, databaseFrom, databaseTo, databaseName, databaseDescription, function(rawData){
-    var myJSON = JSON.stringify(rawData);
+    //založení objektu
+    var state = {status:rawData};
+
+    //Objekt=> string
+    //JSON == string
+    var myJSON = JSON.stringify(state);
     //poslání JSONu
     res.send(myJSON);
   });
@@ -154,7 +166,9 @@ app.post('/api/newFault', function(req, res){
   var databaseEmail = req.body.email;
   //Request on database
   newFaultReport(databaseRoomName, databaseFaultName, databaseUtility, databaseFaultDescription, databaseDateFault, databaseEmail, function(rawData){
-    var myJSON = JSON.stringify(rawData);
+
+    var state = {status:rawData};
+    var myJSON = JSON.stringify(state);
     res.send(myJSON);
   });
 });
@@ -172,8 +186,15 @@ function requestInfoRoom(dataRoomName, callback){
     if (err) throw err;
       con.query("SELECT fault_name, description, date_fault, email FROM `defects` WHERE room_name = '" + dataRoomName +"'", function(error, result2, fields2){
         if(error) throw error;
-        result[0].reportedDefects = result2;
-        callback(result);
+        console.log(result)
+        if(result.length != 0){
+          result[0].reportedDefects = result2;
+          result[0].id_found = true;
+          callback(result);
+        }
+        else{
+         callback({id_found:false});
+        }
       })
   });
 }
@@ -183,6 +204,13 @@ function requestOccupiedTime(dataId, dataDate, callback){
   new RegExp('dddd-dd-dd');
   con.query("SELECT reservation_name, occupied_from, occupied_to, submitter, description FROM occupied WHERE room_name = '" + dataId + "' AND occupied_date = '" + dataDate + "'", function (err, result, fields) {
     if (err) throw err;
+    if(result.length != 0){
+          result[0].id_found = true;
+          callback(result);
+        }
+        else{
+         callback({id_found:false});
+        }
     callback(result);
   });
 }
@@ -206,6 +234,6 @@ function newRequestOccupiedTime(dataRoomId, dataUserName, dataDate, dataFrom, da
 function newFaultReport (dataRoomName, dataFaultName, dataFaultUtility, dataFaultDescription, dataDateFault, dataEmail, callback){
   con.query("INSERT INTO defects (room_name, fault_name, defect_utility, description, date_fault, email) VALUES ( '" + dataRoomName + "', '" + dataFaultName + "', '" + dataFaultUtility + "', '" + dataFaultDescription + "', '" + dataDateFault + "', '" + dataEmail + "')", function(err, result, fields){
     if (err) throw err;
-    callback(result);
+    callback("Succes");
   });
 }

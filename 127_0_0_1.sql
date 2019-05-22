@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Stř 22. kvě 2019, 13:37
+-- Vytvořeno: Stř 22. kvě 2019, 16:44
 -- Verze serveru: 10.1.40-MariaDB
 -- Verze PHP: 7.3.5
 
@@ -45,8 +45,8 @@ CREATE TABLE `defects` (
 --
 
 INSERT INTO `defects` (`id`, `room_name`, `fault_name`, `defect_utility`, `description`, `date_fault`, `email`) VALUES
-(2, 'M10-01', 'Velká chyba', '', 'fvbnm', '2019-05-21', ''),
-(6, 'M10-01', 'Testovací Chyba', 'chair', 'Popis testovací chyby', '2019-05-22', 'jirkajandourek@seznam.cz');
+(2, 'M10-01', 'Testovací chyba', '', 'Popis testovací chyby', '2019-05-23', ''),
+(10, 'M10-01', 'Testovací Chyba', 'chair', 'Popis testovací chyby', '2019-05-22', 'undefined');
 
 -- --------------------------------------------------------
 
@@ -131,13 +131,13 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT pro tabulku `defects`
 --
 ALTER TABLE `defects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pro tabulku `occupied`
 --
 ALTER TABLE `occupied`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pro tabulku `rooms`
