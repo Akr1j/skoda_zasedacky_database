@@ -1,4 +1,4 @@
-# skoda_zasedacky_database
+# Škoda zasedacky - database
 
 ## Need instal:  
 1.XAMPP -- https://www.apachefriends.org/index.html  
