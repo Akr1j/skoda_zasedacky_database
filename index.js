@@ -63,11 +63,15 @@ app.post('/api/roomData', function(req, res) {
   //Objekt
   requestInfoRoom(databaseRoomName, function(rawData){
 
+    console.log(rawData)
+    var myJSON;
     if(!rawData.id_found){
-      res.send(rawData)
+      myJSON = JSON.stringify(rawData);
+      //res.send(JSON.stringify(rawData));
+      console.log("in")
     }
-
-    const NonUtilityEntry = ["room_name", "chair", "contact", "description", "reportedDefects"]
+    else{
+      const NonUtilityEntry = ["room_name", "chair", "contact", "description", "reportedDefects"]
     const outObj = Object.keys(rawData[0]).reduce( (acm, val) => {
       //acm.utility.push(val);
       if(!NonUtilityEntry.includes(val)){
@@ -85,13 +89,11 @@ app.post('/api/roomData', function(req, res) {
       }
       return acm
     }, { utility:[] })
-    var myJSON = JSON.stringify(outObj);
-
-
-
+    myJSON = JSON.stringify(outObj);
+    }
     //var myJSON = JSON.stringify(rawData[0]);
     //poslání JSONu
-    res.send(myJSON);
+    res.send(myJSON); 
   });
 });
 
@@ -106,7 +108,8 @@ app.post('/api/roomSchedule', function(req, res) {
   //Objekt
   requestOccupiedTime(databaseRoomName, databaseDate, function(rawData){
     if(!rawData.id_found){
-      res.send(rawData)
+      res.send(JSON.stringify(rawData));
+      return;
     }
     var sl = [];
     rawData.forEach( (val) => {
@@ -186,7 +189,6 @@ function requestInfoRoom(dataRoomName, callback){
     if (err) throw err;
       con.query("SELECT fault_name, description, date_fault, email FROM `defects` WHERE room_name = '" + dataRoomName +"'", function(error, result2, fields2){
         if(error) throw error;
-        console.log(result)
         if(result.length != 0){
           result[0].reportedDefects = result2;
           result[0].id_found = true;
@@ -211,7 +213,6 @@ function requestOccupiedTime(dataId, dataDate, callback){
         else{
          callback({id_found:false});
         }
-    callback(result);
   });
 }
 
