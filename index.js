@@ -89,7 +89,7 @@ app.post('/api/roomData', function(req, res) {
       }
       return acm
     }, { utility:[] })
-    myJSON = JSON.stringify(outObj);
+    myJSON = JSON.stringify(outObj[0]);
     }
     //var myJSON = JSON.stringify(rawData[0]);
     //poslání JSONu
@@ -189,6 +189,7 @@ function requestInfoRoom(dataRoomName, callback){
     if (err) throw err;
       con.query("SELECT fault_name, description, date_fault, email FROM `defects` WHERE room_name = '" + dataRoomName +"'", function(error, result2, fields2){
         if(error) throw error;
+        console.log(result, result2)
         if(result.length != 0){
           result[0].reportedDefects = result2;
           result[0].id_found = true;
