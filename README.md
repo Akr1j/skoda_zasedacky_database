@@ -48,7 +48,7 @@ Example response:
 ```
 
 ### Get room schedule
-##### /api/roomSchedule
+###### /api/roomSchedule
 Example request:
 ```
 {
