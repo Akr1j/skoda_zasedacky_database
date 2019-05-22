@@ -77,7 +77,7 @@ app.post('/api/roomSchedule', function(req, res) {
   //request na databázi
   //Objekt
   requestOccupiedTime(databaseRoomName, databaseDate, function(rawData){
-  const outObj = Object.keys(rawData[0]).reduce( (acm, val) => {
+    /*  const outObj = Object.keys(rawData[0]).reduce( (acm, val) => {
       if(!NonUtilityEntry.includes(val)){
         if(rawData[0][val])
           acm.utility.push(val);
@@ -86,7 +86,9 @@ app.post('/api/roomSchedule', function(req, res) {
         acm[val] = rawData[0][val]
       return acm
     }, { utility:[] })
-    var myJSON = JSON.stringify(outObj);
+    var myJSON = JSON.stringify(outObj);*/
+
+    var myJSON = JSON.stringify(rawData);
     //poslání JSONu
     res.send(myJSON);
   });
@@ -115,6 +117,21 @@ app.post('/api/addRoomReservation', function(req, res) {
   });
 });
 
+//Add new fault report
+app.post('/api/newFault', function(req, res){
+  var databaseRoomName = req.body.room_name;
+  var databaseFaultName = req.body.fault_name;
+  var databaseUtility = req.body.utility;
+  var databaseFaultDescription = req.body.fault_description;
+  var databaseDateFault = req.body.date_fault;
+  var databaseEmail = req.body.email;
+  //Request on database
+  newFaultReport(databaseRoomName, databaseFaultName, databaseUtility, databaseFaultDescription, databaseDateFault, databaseEmail, function(rawData){
+    var myJSON = JSON.stringify(rawData);
+    res.send(myJSON);
+  });
+});
+
 //Zde čeká na příchod na PORT a pošle SENT (Nechává zapnutý průchod)
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
@@ -126,9 +143,8 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 function requestInfoRoom(dataRoomName, callback){
   con.query("SELECT room_name, contact, chair, tv, solid_door, speaker, dataprojector, whiteboard FROM rooms WHERE room_name = '" + dataRoomName + "'", function (err, result, fields) {
     if (err) throw err;
-      con.query("SELECT fault, descriptio, date_fault FROM `defects` WHERE room_name = '" + dataRoomName +"'", function(error, result2, fields2){
+      con.query("SELECT fault_name, descriptio, date_fault FROM `defects` WHERE room_name = '" + dataRoomName +"'", function(error, result2, fields2){
         if(error) throw error;
-        console.log(result, result2)
         result[0].reportedDefects = result2;
         callback(result);
       })
@@ -143,6 +159,7 @@ function requestOccupiedTime(dataId, dataDate, callback){
     callback(result);
   });
 }
+
 //Tvorba nové rezervace
 function newRequestOccupiedTime(dataRoomId, dataUserName, dataDate, dataFrom, dataTo, dataReservationName, dataDescription, callback){
   con.query("select count(room_name) from occupied where occupied_date = '" + dataDate + "' and (room_name = '" + dataRoomId + "' and ((occupied_from BETWEEN '" + dataFrom + "' and '" + dataTo + "') or (occupied_to BETWEEN '" + dataFrom + "' and '" + dataTo + "')))", function(err, result, fields){
@@ -155,5 +172,13 @@ function newRequestOccupiedTime(dataRoomId, dataUserName, dataDate, dataFrom, da
     }else{
       callback("Occupied");
     }
+  });
+}
+
+//Add new fault report
+function newFaultReport (dataRoomName, dataFaultName, dataFaultUtility, dataFaultDescription, dataDateFault, dataEmail, callback){
+  con.query("INSERT INTO defects (room_name, fault_name, defect_utility, description, date_fault, email) VALUES ( '" + dataRoomName + "', '" + dataFaultName + "', '" + dataFaultUtility + "', '" + dataFaultDescription + "', '" + dataDateFault + "', '" + dataEmail + "')", function(err, result, fields){
+    if (err) throw err;
+    callback(result);
   });
 }
