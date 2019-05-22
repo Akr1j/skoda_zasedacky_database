@@ -62,21 +62,7 @@ app.post('/api/roomData', function(req, res) {
   //request na databázi
   //Objekt
   requestInfoRoom(databaseRoomName, function(rawData){
-    var myJSON = JSON.stringify(rawData[0]);
-    //poslání JSONu
-    res.send(myJSON);
-  });
-});
 
-//WRITE ROOM SCHEDULE
-//Nastavení poslechu na adresu a výsledek
-app.post('/api/roomSchedule', function(req, res) {
-  //pokus o vytáhnutí id z ***
-  var databaseRoomName = req.body.id_room;
-  var databaseDate = req.body.date;
-  //request na databázi
-  //Objekt
-  requestOccupiedTime(databaseRoomName, databaseDate, function(rawData){
     const NonUtilityEntry = ["room_name", "chair", "contact", "description"]
     const outObj = Object.keys(rawData[0]).reduce( (acm, val) => {
       if(!NonUtilityEntry.includes(val)){
@@ -95,6 +81,25 @@ app.post('/api/roomSchedule', function(req, res) {
       return acm
     }, { utility:[] })
     var myJSON = JSON.stringify(outObj);
+
+
+    
+    var myJSON = JSON.stringify(rawData[0]);
+    //poslání JSONu
+    res.send(myJSON);
+  });
+});
+
+//WRITE ROOM SCHEDULE
+//Nastavení poslechu na adresu a výsledek
+app.post('/api/roomSchedule', function(req, res) {
+  //pokus o vytáhnutí id z ***
+  var databaseRoomName = req.body.id_room;
+  var databaseDate = req.body.date;
+  //request na databázi
+  //Objekt
+  requestOccupiedTime(databaseRoomName, databaseDate, function(rawData){
+    
 
     var myJSON = JSON.stringify(rawData);
     //poslání JSONu
