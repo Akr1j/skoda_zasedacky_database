@@ -114,11 +114,27 @@ app.post('/api/roomSchedule', function (req, res) {
     }
     var sl = [];
     rawData.forEach((val) => {
+      var end = new Date();
+      {
+        let [hours,minutes,seconds] = val.occupied_to.split(':');
+        
+        end.setHours(hours);
+        end.setMinutes(minutes)
+        end.setSeconds(seconds)
+      }
+      
+
+      let [hours,minutes,seconds] = val.occupied_from.split(':');
+      var start = new Date();
+      start.setHours(hours);
+      start.setMinutes(minutes)
+      start.setSeconds(seconds)
+
       sl.push({
         name: val.reservation_name,
         owner: val.submitter,
-        start: val.occupied_from,
-        end: val.occupied_to,
+        start: start,
+        end: end,
         description: val.description
       })
     })
