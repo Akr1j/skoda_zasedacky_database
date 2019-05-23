@@ -71,7 +71,7 @@ app.post('/api/roomData', function (req, res) {
       //console.log("in")
     }
     else {
-      const NonUtilityEntry = ["room_name", "chair", "contact", "description", "reportedDefects"]
+      const NonUtilityEntry = ["room_name", "chair", "contact", "description", "reportedDefects", "id_found"]
       const outObj = Object.keys(rawData[0]).reduce((acm, val) => {
         //acm.utility.push(val);
         if (!NonUtilityEntry.includes(val)) {
