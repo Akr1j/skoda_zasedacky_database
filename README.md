@@ -1,12 +1,28 @@
 # Škoda zasedacky - database
 Aplikaci naleznete [Zde](https://body0.ml/).
 
-## Need instal:  
+## Reason why we made it
+Simplicity and accessibility of booking conference hall
+
+## Instructions how to use it
+1.Open app
+2.Scan QR code
+3.Check availability of room
+4.Book room for needed time interval
+
+## Another features
+-Searching bar
+-Burger(Hamburger) menu
+*Add to home screen function
+*About app
+
+
+## Need to install:  
 1.XAMPP -- https://www.apachefriends.org/index.html  
 
 ## XAMPP (database)  
 1.Run XAMPP  
-2.Start All Servers  
+2.Start All Servers 
 3.Open in browser http://localhost/phpmyadmin/index.php 
 
 <br><br>
