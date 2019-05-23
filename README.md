@@ -5,25 +5,33 @@ App link: [Here](https://body0.ml/).
 Simplicity and accessibility of booking conference hall
 
 ## Instructions how to use it
-1.Open app
-2.Scan QR code
-3.Check availability of room
-4.Book room for needed time interval
+1. Open app
+2. Scan QR code
+3. Check availability of room
+4. Book room for needed time interval
 
 ## Another features
-1.Searching bar
-2.Burger(Hamburger) menu
-*Add to home screen function
-*About app
+1. Searching bar :white_check_mark:
+2. Burger(Hamburger) menu 
+    - QR-Coe reader :white_check_mark: 
+    - Add to home screen function :white_check_mark:
+    - About app :white_check_mark:
+    - User :x:
+    - Last wieved :x:
+3. Filtered search :x:
+4. Map of conference rooms :x:
+5. Cancellation of reservation :x:
+
+   
 
 
 ## Need to install:  
 1.XAMPP -- https://www.apachefriends.org/index.html  
 
 ## XAMPP (database)  
-1.Run XAMPP  
-2.Start All Servers 
-3.Open in browser http://localhost/phpmyadmin/index.php 
+1. Run XAMPP  
+2. Start All Servers 
+3. Open in browser http://localhost/phpmyadmin/index.php 
 
 <br><br>
 ## Backend API
