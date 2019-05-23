@@ -11,8 +11,8 @@ Simplicity and accessibility of booking conference hall
 4.Book room for needed time interval
 
 ## Another features
--Searching bar
--Burger(Hamburger) menu
+1.Searching bar
+2.Burger(Hamburger) menu
 *Add to home screen function
 *About app
 
