@@ -13,7 +13,7 @@ Simplicity and accessibility of booking conference hall
 ## Another features
 1. Searching bar :white_check_mark:
 2. Burger(Hamburger) menu 
-    - QR-Coe reader :white_check_mark: 
+    - QR-Code reader :white_check_mark: 
     - Add to home screen function :white_check_mark:
     - About app :white_check_mark:
     - User :x:
