@@ -1,5 +1,5 @@
 # Škoda zasedacky - database
-Aplikaci naleznete [Zde](https://body0.ml/).
+App link: [Here](https://body0.ml/).
 
 ## Reason why we made it
 Simplicity and accessibility of booking conference hall
