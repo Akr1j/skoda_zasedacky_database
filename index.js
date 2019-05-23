@@ -63,12 +63,12 @@ app.post('/api/roomData', function (req, res) {
   //Objekt
   requestInfoRoom(databaseRoomName, function (rawData) {
 
-    //console.log(rawData)
+    console.log(rawData)
     var myJSON;
     if (!rawData[0].id_found) {
-      myJSON = JSON.stringify(rawData);
+      myJSON = JSON.stringify(rawData[0]);
       //res.send(JSON.stringify(rawData));
-      console.log("in")
+      //console.log("in")
     }
     else {
       const NonUtilityEntry = ["room_name", "chair", "contact", "description", "reportedDefects"]
@@ -89,7 +89,8 @@ app.post('/api/roomData', function (req, res) {
         }
         return acm
       }, { utility: [] })
-      myJSON = JSON.stringify(outObj[0]);
+      myJSON = JSON.stringify(outObj);
+      //console.log("inn", myJSON)
     }
     //var myJSON = JSON.stringify(rawData[0]);
     //poslání JSONu
@@ -108,7 +109,7 @@ app.post('/api/roomSchedule', function (req, res) {
   //Objekt
   requestOccupiedTime(databaseRoomName, databaseDate, function (rawData) {
     if (!rawData[0].id_found) {
-      res.send(JSON.stringify(rawData));
+      res.send(JSON.stringify(rawData[0]));
       return;
     }
     var sl = [];
@@ -189,14 +190,14 @@ function requestInfoRoom(dataRoomName, callback) {
     if (err) throw err;
     con.query("SELECT fault_name, description, date_fault, email FROM `defects` WHERE room_name = '" + dataRoomName + "'", function (error, result2, fields2) {
       if (error) throw error;
-      console.log(result, result2)
+      //console.log(result, result2)
       if (result.length != 0) {
         result[0].reportedDefects = result2;
         result[0].id_found = true;
         callback(result);
       }
       else {
-        callback({ id_found: false });
+        callback([{ id_found: false }]);
       }
     })
   });
@@ -212,7 +213,7 @@ function requestOccupiedTime(dataId, dataDate, callback) {
       callback(result);
     }
     else {
-      callback({ id_found: false });
+      callback([{ id_found: false }]);
     }
   });
 }
