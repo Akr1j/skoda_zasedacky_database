@@ -209,7 +209,7 @@ function requestOccupiedTime(dataId, dataDate, callback) {
   con.query("SELECT reservation_name, occupied_from, occupied_to, submitter, description FROM occupied WHERE room_name = '" + dataId + "' AND occupied_date = '" + dataDate + "'", function (err, result, fields) {
     if (err) throw err;
     if (result.length != 0) {
-      result[0].id_found = true;
+      results.id_found = true;
       callback(result);
     }
     else {
