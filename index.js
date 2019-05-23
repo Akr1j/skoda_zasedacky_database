@@ -107,9 +107,9 @@ app.post('/api/roomSchedule', function (req, res) {
 
   //request na databázi
   //Objekt
-  requestOccupiedTime(databaseRoomName, databaseDate, function (rawData) {
-    if (!rawData[0].id_found) {
-      res.send(JSON.stringify(rawData[0]));
+  requestOccupiedTime(databaseRoomName, databaseDate, function (rawData, id_found) {
+    if (!id_found) {
+      res.send(JSON.stringify({ id_found: false }));
       return;
     }
     var sl = [];
@@ -125,6 +125,7 @@ app.post('/api/roomSchedule', function (req, res) {
 
     var myJSON = JSON.stringify({
       id: req.body.id_room,
+      id_found: true,
       schedule_list: sl
     });
     //poslání JSONu
@@ -208,12 +209,17 @@ function requestOccupiedTime(dataId, dataDate, callback) {
   new RegExp('dddd-dd-dd');
   con.query("SELECT reservation_name, occupied_from, occupied_to, submitter, description FROM occupied WHERE room_name = '" + dataId + "' AND occupied_date = '" + dataDate + "'", function (err, result, fields) {
     if (err) throw err;
+    
     if (result.length != 0) {
-      results.id_found = true;
-      callback(result);
+      /*var tempObj = {schedule_list:[]};
+      for(var i in result){
+        tempObj.schedule_list.push(result[i]);
+      }
+      tempObj.id_found = true;*/
+      callback(result, true);
     }
     else {
-      callback([{ id_found: false }]);
+      callback([], false);
     }
   });
 }
