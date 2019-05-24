@@ -85,10 +85,10 @@ I tried to change it, but i canť forse Angular to update view.
 ### Back-end
 1. nodejs 
 2. nodejs liblary
-   2.1 express
-   2.2 mysql
-   2.3 cors
-   2.4 other libraries wasn't fully used
+   - express
+   - mysql
+   - cors
+   - other libraries wasn't fully used
 3. nginx
 
 ### Database
