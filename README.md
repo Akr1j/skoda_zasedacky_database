@@ -32,7 +32,7 @@ node index.js
 ### Database
 - run XAMPP
 - start all server
-- Open browser with url: [127.0.0.1/phpmyadmin] (127.0.0.1/phpmyadmin)
+- Open browser with url: [127.0.0.1/phpmyadmin](127.0.0.1/phpmyadmin)
 - click NEW in side menu
 - click import and select file
 ## Reason why we made it
