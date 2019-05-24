@@ -1,35 +1,39 @@
 # Škoda zasedacky - database
-App link: [Here](https://body0.ml/).
-Github Front-end: [Here](https://github.com/body0/skoda_zasedcky_angular).
-Github Back-end: [Here](https://github.com/Akr1j/skoda_zasedacky_database).
+App link: [Here] (https://body0.ml/) .
+Github Front-end: [Here] (https://github.com/body0/skoda_zasedcky_angular) .
+Github Back-end: [Here] (https://github.com/Akr1j/skoda_zasedacky_database) .
 
-##Get started
-###Front-end
--Download Angualr
--Clone front-end repository
--Cd to it 
--Build angular project (entry point -> dist/index.html)
+## Get started
+### Front-end
+- Download Angualr
+- Clone front-end repository
+- Cd to it 
+- Build angular project (entry point -> dist/index.html)
 ```
 ng build --prod --base-href ./
 ```
--Or run localy
+- Or run localy
 ```
 ng serve
 ```
-###Back-end
--Download nodejs and npm
--clone back-end repository
--Cd to it 
--install dependenci
--run npm
+### Back-end
+- Download nodejs and npm
+- clone back-end repository
+- Cd to it 
+- install dependenci
+- run npm
 ```
 npm install
 ```
--serve servise on local port 3000
+- serve servise on local port 3000
 ```
 node index.js
 ```
-
+- run XAMPP
+- start all server
+- Open browser with url: [127.0.0.1/phpmyadmin] (127.0.0.1/phpmyadmin)
+- click NEW in side menu
+- click import and select file
 ## Reason why we made it
 Simplicity and accessibility of booking conference hall in Škoda 
 
@@ -59,15 +63,15 @@ I tried to change it, but i canť forse Angular to update view.
 - Not yet supported change betven day and mont view in shcedule component
 - Frontend lack full support of add fault utility request and add new meeting request, database and front end is ready for handeling request and frontend have basic forms, but conection still dont work.
 - in app conponent dont fork event, that lisen for popup to install app to homescreen (it should be possible to triger it with option in sidemenu)
--list of last viewed conference hall (nothing except unfinished GUI)
--unite css styles
+- list of last viewed conference hall (nothing except unfinished GUI)
+- unite css styles
 - component side-nav not unused or finished
 - login servise not unused or finished
 - componenet meeting info should show info when click in schdule on gold/yellow element
 
-##Description of front-end architecture
--2 modelus (src/app/app.module.ts; src/app/material/material.module.ts)
--every netrok request go through api ervise
+## Description of front-end architecture
+- 2 modelus (src/app/app.module.ts; src/app/material/material.module.ts)
+- every netrok request go through api servise
 
 
 ## Used technology 
@@ -85,9 +89,10 @@ I tried to change it, but i canť forse Angular to update view.
    2.3 cors
    2.4 other libraries wasn't fully used
 3. nginx
-###Database
+
+### Database
 1. mysql
-2. xamp (https://www.apachefriends.org/index.html)
+2. xampp (https://www.apachefriends.org/index.html)
 
 
 <br><br>
