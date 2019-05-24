@@ -77,14 +77,14 @@ I tried to change it, but i canť forse Angular to update view.
 
 ## Used technology 
 ### Front-end
-1. Angualr 7.3.4
+1. Angular 7.3.4
    - Angular Meterial 
    - Angular PWA
 2. QR Scanner (https://www.npmjs.com/package/qr-scanner)
    - **changed code (remove video element css transformation && changed WORKERDIR variable)**
 ### Back-end
 1. nodejs 
-2. nodejs liblary
+2. nodejs library
    - express
    - mysql
    - cors
