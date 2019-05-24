@@ -23,12 +23,12 @@ Simplicity and accessibility of booking conference hall
 5. Cancellation of reservation :x:
 
 ## Unfinished
--In schedule component is made unnesseary request. Request response is already in parent component. 
+- In schedule component is made unnesseary request. Request response is already in parent component. 
 I tried to change it, but i canť forse Angular to update view.
--Utility picture in not displayed if id demaged (code redy in room component)
--Not yet supported change betven day and mont view in shcedule component
--Frontend lack full support of add fault utility request and add new meeting request, database and front end is ready for handeling request and frontend have basic forms, but conection still dont work.
--in app conponent dont fork event, that lisen for popup to install app to homescreen (it should be possible to triger it with option in sidemenu)
+- Utility picture in not displayed if id demaged (code redy in room component)
+- Not yet supported change betven day and mont view in shcedule component
+- Frontend lack full support of add fault utility request and add new meeting request, database and front end is ready for handeling request and frontend have basic forms, but conection still dont work.
+- in app conponent dont fork event, that lisen for popup to install app to homescreen (it should be possible to triger it with option in sidemenu)
 
 ## Need to install:  
 1.XAMPP -- https://www.apachefriends.org/index.html  
