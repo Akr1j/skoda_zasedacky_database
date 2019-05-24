@@ -5,7 +5,7 @@ Github Back-end: [Here](https://github.com/Akr1j/skoda_zasedacky_database) .
 
 ## Get started
 ### Front-end
-- Download Angualr
+- Download Angular
 - Clone front-end repository
 - Cd to it 
 - Build angular project (entry point -> dist/index.html)
@@ -20,18 +20,18 @@ ng serve
 - Download nodejs and npm
 - clone back-end repository
 - Cd to it 
-- install dependenci
+- install dependency
 - run npm
 ```
 npm install
 ```
-- serve servise on local port 3000
+- listen with service on local port 3000
 ```
 node index.js
 ```
 ### Database
 - run XAMPP
-- start all server
+- start all servers
 - Open browser with url: [127.0.0.1/phpmyadmin](127.0.0.1/phpmyadmin)
 - click NEW in side menu
 - click import and select file
@@ -51,7 +51,7 @@ Simplicity and accessibility of booking conference hall in Škoda
     - Add to home screen function :white_check_mark:
     - About app :white_check_mark:
     - User :x:
-    - Last wieved :x:
+    - Last viewed :x:
 3. Filtered search :x:
 4. Map of conference rooms :x:
 5. Cancellation of reservation :x:
@@ -88,7 +88,7 @@ I tried to change it, but i canť forse Angular to update view.
    - express
    - mysql
    - cors
-   - other libraries wasn't fully used
+   - other libraries weren´t fully used
 3. nginx
 
 ### Database
@@ -161,7 +161,7 @@ Example response:
 
 ### Create new room reservation
 ###### /api/addRoomReservation
--return "status":"Occupied" when  room is ocupied in requested term
+- return "status": "Occupied" when  room is occupied in the requested term
 Example request:
 ```
 {
@@ -183,7 +183,7 @@ Example response:
 
 ### Create fault report
 ###### /api/newFault
--always return "status":"Succes"
+- always return "status":"Succes"
 Example request:
 ```
 {
@@ -194,7 +194,7 @@ Example request:
   	"date_fault": "2019-05-22"
 }
 ```
-Examlpe response:
+Example response:
 ```
 {
    "status":"Succes"
