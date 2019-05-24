@@ -1,7 +1,7 @@
 # Škoda zasedacky - database
-App link: [Here] (https://body0.ml/) .
-Github Front-end: [Here] (https://github.com/body0/skoda_zasedcky_angular) .
-Github Back-end: [Here] (https://github.com/Akr1j/skoda_zasedacky_database) .
+App link: [Here](https://body0.ml/) .
+Github Front-end: [Here](https://github.com/body0/skoda_zasedcky_angular) .
+Github Back-end: [Here](https://github.com/Akr1j/skoda_zasedacky_database) .
 
 ## Get started
 ### Front-end
