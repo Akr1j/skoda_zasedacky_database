@@ -68,11 +68,11 @@ I tried to change it, but i canť forse Angular to update view.
 - unite css styles
 - component side-nav not unused or finished
 - login servise not unused or finished
-- componenet meeting info should show info when click in schdule on gold/yellow element
+- componet meeting info should show info when click in schedule on gold/yellow element
 
 ## Description of front-end architecture
-- 2 modelus (src/app/app.module.ts; src/app/material/material.module.ts)
-- every netrok request go through api servise
+- 2 modules (src/app/app.module.ts; src/app/material/material.module.ts)
+- every network request go through api service
 
 
 ## Used technology 
